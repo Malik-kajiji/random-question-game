@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Header from './components/Header';
+import Main from './components/Main';
 
 function App() {
+  const [toggleNav,setToggleNav] = useState(false)
+  const [questionsNum,setGuestionsNum] = useState(5)
+  const [sound,setSound]=useState(true)
+
+  function handleToggleNav(){
+    setToggleNav(prev=>!prev)
+  }
+
+  function handlePlus(){
+    if(questionsNum<10){
+        setGuestionsNum(prev=>prev+1)
+    }
+}
+
+function handleMines(){
+    if(questionsNum>1){
+        setGuestionsNum(prev=>prev-1)
+    }
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className='main-section'>
+      <Header 
+        handleToggleNav={handleToggleNav} 
+        toggleNav={toggleNav} 
+        questionsNum={questionsNum} 
+        setGuestionsNum={setGuestionsNum} 
+        handlePlus={handlePlus}
+        handleMines={handleMines}
+        sound={sound}
+        setSound={()=>setSound(prev=>!prev)}
+      />
+      <section className='secondry-section'>
+        <Main questionsNum={questionsNum} sound={sound}/>
+      </section>
+      <div 
+        className={`overlay ${toggleNav?'active':''}`}
+        onClick={handleToggleNav} 
+      ></div>
+    </section>
   );
 }
 
